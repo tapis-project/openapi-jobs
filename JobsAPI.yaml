@@ -119,6 +119,8 @@ paths:
         '500':
           description: Server error.
       deprecated: true
+
+  # --- Paths for Jobs ------------------------------------------
   /jobs/{jobUuid}/hide:
     post:
       tags:
@@ -530,9 +532,12 @@ paths:
       tags:
         - Jobs
       description: |-
-        Download a job's output files using the job's UUID. By default, the job must be in a terminal state (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a terminal state--and possibly receive incomplete results--set _allowIfRunning=true_.  
+        Download a job's output files using the job's UUID. By default, the job must be in a terminal state
+        (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a
+        terminal state--and possibly receive incomplete results--set _allowIfRunning=true_.  
 
-        The caller must be the job owner, creator or a tenant administrator. The _outputPath_ is always relative to the job output directory and must end with a '/'. 
+        The caller must be the job owner, creator or a tenant administrator. The _outputPath_ is always relative to the
+        job output directory and must end with a '/'.
       operationId: getJobOutputDownload
       parameters:
         - name: jobUuid
@@ -611,9 +616,12 @@ paths:
       tags:
         - Jobs
       description: |-
-        Retrieve a job's output file listing using the job's UUID. By default, the job must be in a terminal state (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a terminal state--and possibly receive incomplete results--set _allowIfRunning=true_.  
+        Retrieve a job's output file listing using the job's UUID. By default, the job must be in a terminal state
+        (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a terminal
+        state--and possibly receive incomplete results--set _allowIfRunning=true_.  
 
-        The caller must be the job owner, creator or a tenant administrator. The _outputPath_ is always relative to the job output directory and must end with a '/'. 
+        The caller must be the job owner, creator or a tenant administrator. The _outputPath_ is always relative to the
+        job output directory and must end with a '/'.
       operationId: getJobOutputList
       parameters:
         - name: jobUuid
@@ -864,194 +872,6 @@ paths:
                 $ref: '#/components/schemas/RespBasic'
       security:
         - TapisJWT: []
-  /jobs/{jobUuid}/share/{user}:
-    delete:
-      tags:
-        - Sharing
-      description: |-
-        Delete all share information of a previously shared job for a specific user
-
-        The caller must be the job owner, creator or a tenant administrator.
-      operationId: deleteJobShare
-      parameters:
-        - name: jobUuid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: user
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pretty
-          in: query
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Job's share information deleted for a specific user.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespUnShareJob'
-        '400':
-          description: Input error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '404':
-          description: Job not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespName'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-      security:
-        - TapisJWT: []
-  /jobs/{jobUuid}/share:
-    get:
-      tags:
-        - Sharing
-      description: |-
-        Retrieve share information of a job by its UUID.
-
-        The caller must be the job owner, creator or a tenant administrator.
-      operationId: getJobShare
-      parameters:
-        - name: jobUuid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: limit
-          in: query
-          schema:
-            type: integer
-            format: int32
-        - name: skip
-          in: query
-          schema:
-            type: integer
-            format: int32
-        - name: pretty
-          in: query
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Job's share information retrieved.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespGetJobShareList'
-        '400':
-          description: Input error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '404':
-          description: Job not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespName'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-      security:
-        - TapisJWT: []
-    post:
-      tags:
-        - Sharing
-      description: Share a job with a user of the tenant. The caller must be the job owner, creator or a tenant administrator.
-      operationId: shareJob
-      parameters:
-        - name: jobUuid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pretty
-          in: query
-          schema:
-            type: boolean
-            default: false
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReqShareJob'
-        required: true
-      responses:
-        '200':
-          description: Job is shared sucessfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespShareJob'
-        '400':
-          description: Input error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-      security:
-        - TapisJWT: []
   /jobs/{jobUuid}/status:
     get:
       tags:
@@ -1227,9 +1047,13 @@ paths:
       tags:
         - Jobs
       description: |-
-        Send a user event to an active job. The job must be in the same tenant as the caller, but no other authorization is needed. If the job has terminated the request will be rejected. The caller must specify a payload of non-empty string data in the *eventData* field. The *eventDetail* field can be set to further qualify the type of user event, which is useful when filtering events. If not provided the *eventDetail* defaults to "DEFAULT".
+        Send a user event to an active job. The job must be in the same tenant as the caller, but no other authorization
+        is needed. If the job has terminated the request will be rejected. The caller must specify a payload of
+        non-empty string data in the *eventData* field. The *eventDetail* field can be set to further qualify the type
+        of user event, which is useful when filtering events. If not provided the *eventDetail* defaults to "DEFAULT".
 
-        Subscribers that register interest in events of type JOB_USER_EVENT will receive a notification as a result of this call.
+        Subscribers that register interest in events of type JOB_USER_EVENT will receive a notification as a result of
+        this call.
       operationId: sendEvent
       parameters:
         - name: jobUuid
@@ -1343,14 +1167,19 @@ paths:
                 $ref: '#/components/schemas/RespBasic'
       security:
         - TapisJWT: []
+
+  # --- Paths for Subscriptions ------------------------------------------
   /jobs/subscribe/{uuid}:
     delete:
       tags:
         - Subscriptions
       description: |-
-        Depending on the UUID provide, this API either deletes a single subscription from a job or all subscriptions from a job. To delete single subscription, provide the UUID of that subscription as listed in the subscription retrieval result for the job.  To delete all a job's subscriptions, specify the job UUID.
+        Depending on the UUID provide, this API either deletes a single subscription from a job or all subscriptions
+        from a job. To delete single subscription, provide the UUID of that subscription as listed in the subscription
+        retrieval result for the job.  To delete all a job's subscriptions, specify the job UUID.
 
-        Like all Job subscription APIs, modifications only affect running jobs and never change the saved job definition. As a consequence, job resubmissions are not affected by runtime subscription changes.
+        Like all Job subscription APIs, modifications only affect running jobs and never change the saved job
+        definition. As a consequence, job resubmissions are not affected by runtime subscription changes.
       operationId: deleteSubscriptions
       parameters:
         - name: uuid
@@ -1527,122 +1356,211 @@ paths:
                 $ref: '#/components/schemas/RespBasic'
       security:
         - TapisJWT: []
+  # --- Paths for Sharing ------------------------------------------
+  /jobs/{jobUuid}/share/{user}:
+    delete:
+      tags:
+        - Sharing
+      description: |-
+        Delete all share information of a previously shared job for a specific user
+
+        The caller must be the job owner, creator or a tenant administrator.
+      operationId: deleteJobShare
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pretty
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Job's share information deleted for a specific user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespUnShareJob'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+  /jobs/{jobUuid}/share:
+    get:
+      tags:
+        - Sharing
+      description: |-
+        Retrieve share information of a job by its UUID.
+
+        The caller must be the job owner, creator or a tenant administrator.
+      operationId: getJobShare
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pretty
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Job's share information retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespGetJobShareList'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+    post:
+      tags:
+        - Sharing
+      description: Share a job with a user of the tenant. The caller must be the job owner, creator or a tenant administrator.
+      operationId: shareJob
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pretty
+          in: query
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqShareJob'
+        required: true
+      responses:
+        '200':
+          description: Job is shared successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespShareJob'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+
+# ------------------------------------------------------------------------------
+# --- Components ---------------------------------------------------------------
+# ------------------------------------------------------------------------------
 components:
+  securitySchemes:
+    TapisJWT:
+      type: apiKey
+      description: Tapis signed JWT token authentication
+      name: X-Tapis-Token
+      in: header
   schemas:
-    JobsProbe:
-      type: object
-      properties:
-        checkNum:
-          type: integer
-          format: int64
-        databaseAccess:
-          type: boolean
-        tenantsAccess:
-          type: boolean
-        queueAccess:
-          type: boolean
-    RespProbe:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          $ref: '#/components/schemas/JobsProbe'
-    ResultMetadata:
-      type: object
-    RespBasic:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          type: object
-    JobHideDisplay:
-      type: object
-      properties:
-        message:
-          type: string
-    RespHideJob:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          $ref: '#/components/schemas/JobHideDisplay'
-    RespName:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          $ref: '#/components/schemas/ResultName'
-    ResultName:
-      type: object
-      properties:
-        name:
-          type: string
-    JobCancelDisplay:
-      type: object
-      properties:
-        message:
-          type: string
-    RespCancelJob:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          $ref: '#/components/schemas/JobCancelDisplay'
+    # ------------------------------------------------------------------------------
+    # --- Model objects ------------------------------------------------------------
+    # ------------------------------------------------------------------------------
+    # --- Job ------------------------------------------------------------------
     Job:
       type: object
       properties:
@@ -1857,56 +1775,159 @@ components:
           type: string
         mpi:
           type: boolean
-    RespGetJob:
+    # --- JobFileInput ------------------------------------------------------------------
+    JobFileInput:
       type: object
       properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          $ref: '#/components/schemas/Job'
-    JobHistoryDisplayDTO:
-      type: object
-      properties:
-        event:
-          type: string
-        created:
-          type: string
-          format: date-time
-        eventDetail:
+        name:
           type: string
         description:
           type: string
-        transferTaskUuid:
+        envKey:
           type: string
-    RespJobHistory:
+        autoMountLocal:
+          type: boolean
+        sourceUrl:
+          type: string
+        targetPath:
+          type: string
+        notes:
+          type: object
+    # --- JobFileInputArray ---------------------------------------------------------------
+    JobFileInputArray:
       type: object
       properties:
-        status:
+        name:
           type: string
-        message:
+        description:
           type: string
-        version:
+        envKey:
           type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
+        sourceUrls:
           type: array
           items:
-            $ref: '#/components/schemas/JobHistoryDisplayDTO'
+            type: string
+        targetDir:
+          type: string
+        notes:
+          type: object
+    # --- JobParameterSet ---------------------------------------------------------------
+    JobParameterSet:
+      type: object
+      properties:
+        appArgs:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobArgSpec'
+        containerArgs:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobArgSpec'
+        schedulerOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobArgSpec'
+        envVariables:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyValuePair'
+        archiveFilter:
+          $ref: '#/components/schemas/IncludeExcludeFilter'
+        logConfig:
+          $ref: '#/components/schemas/LogConfig'
+    # --- KeyValuePair ---------------------------------------------------------------
+    KeyValuePair:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        description:
+          type: string
+        include:
+          type: boolean
+        notes:
+          type: object
+    # --- LogConfig ---------------------------------------------------------------
+    LogConfig:
+      type: object
+      properties:
+        stdoutFilename:
+          type: string
+        stderrFilename:
+          type: string
+    # --- DeliveryTarget ---------------------------------------------------------------
+    DeliveryTarget:
+      type: object
+      properties:
+        deliveryMethod:
+          type: string
+          enum:
+            - WEBHOOK
+            - EMAIL
+        deliveryAddress:
+          type: string
+    # --- NotifDeliveryTarget ---------------------------------------------------------------
+    NotifDeliveryTarget:
+      type: object
+      properties:
+        deliveryMethod:
+          type: string
+          enum:
+            - WEBHOOK
+            - EMAIL
+            - QUEUE
+            - ACTOR
+        deliveryAddress:
+          type: string
+    # --- JobsProbe ------------------------------------------------------------------
+    JobsProbe:
+      type: object
+      properties:
+        checkNum:
+          type: integer
+          format: int64
+        databaseAccess:
+          type: boolean
+        tenantsAccess:
+          type: boolean
+        queueAccess:
+          type: boolean
+    # --- TapisSubscription ------------------------------------------------------------------
+    TapisSubscription:
+      type: object
+      properties:
+        tenant:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        owner:
+          type: string
+        enabled:
+          type: boolean
+        typeFilter:
+          type: string
+        subjectFilter:
+          type: string
+        deliveryTargets:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeliveryTarget'
+        ttlMinutes:
+          type: integer
+          format: int32
+        uuid:
+          type: string
+        expiry:
+          type: string
+        created:
+          type: string
+        updated:
+          type: string
+    # --- JobListDTO ------------------------------------------------------------------
     JobListDTO:
       type: object
       properties:
@@ -1983,25 +2004,7 @@ components:
         lastUpdated:
           type: string
           format: date-time
-    RespGetJobList:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          type: array
-          items:
-            $ref: '#/components/schemas/JobListDTO'
+    # --- FileInfo ------------------------------------------------------------------
     FileInfo:
       type: object
       properties:
@@ -2033,66 +2036,7 @@ components:
         size:
           type: integer
           format: int64
-    RespGetJobOutputList:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          type: array
-          items:
-            $ref: '#/components/schemas/FileInfo'
-    RespJobSearchAllAttributes:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          type: array
-          items:
-            $ref: '#/components/schemas/Job'
-    JobUnShareDisplay:
-      type: object
-      properties:
-        message:
-          type: string
-    RespUnShareJob:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          $ref: '#/components/schemas/JobUnShareDisplay'
+    # --- JobShareListDTO ------------------------------------------------------------------
     JobShareListDTO:
       type: object
       properties:
@@ -2111,89 +2055,7 @@ components:
         created:
           type: string
           format: date-time
-    RespGetJobShareList:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          type: array
-          items:
-            $ref: '#/components/schemas/JobShareListDTO'
-    JobShareDisplay:
-      type: object
-      properties:
-        message:
-          type: string
-    RespShareJob:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          $ref: '#/components/schemas/JobShareDisplay'
-    ReqShareJob:
-      type: object
-      properties:
-        grantee:
-          type: string
-        jobResource:
-          type: array
-          items:
-            type: string
-            enum:
-              - JOB_HISTORY
-              - JOB_RESUBMIT_REQUEST
-              - JOB_OUTPUT
-              - JOB_INPUT
-        jobPermission:
-          type: string
-          enum:
-            - READ
-    JobStatusDisplay:
-      type: object
-      properties:
-        status:
-          type: string
-        condition:
-          type: string
-    RespGetJobStatus:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        version:
-          type: string
-        commit:
-          type: string
-        build:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/ResultMetadata'
-        result:
-          $ref: '#/components/schemas/JobStatusDisplay'
+    # --- IncludeExcludeFilter ------------------------------------------------------------------
     IncludeExcludeFilter:
       type: object
       properties:
@@ -2207,6 +2069,7 @@ components:
             type: string
         includeLaunchFiles:
           type: boolean
+    # --- JobArgSpec ------------------------------------------------------------------
     JobArgSpec:
       type: object
       properties:
@@ -2220,95 +2083,10 @@ components:
           type: string
         notes:
           type: object
-    JobFileInput:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        envKey:
-          type: string
-        autoMountLocal:
-          type: boolean
-        sourceUrl:
-          type: string
-        targetPath:
-          type: string
-        notes:
-          type: object
-    JobFileInputArray:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        envKey:
-          type: string
-        sourceUrls:
-          type: array
-          items:
-            type: string
-        targetDir:
-          type: string
-        notes:
-          type: object
-    JobParameterSet:
-      type: object
-      properties:
-        appArgs:
-          type: array
-          items:
-            $ref: '#/components/schemas/JobArgSpec'
-        containerArgs:
-          type: array
-          items:
-            $ref: '#/components/schemas/JobArgSpec'
-        schedulerOptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/JobArgSpec'
-        envVariables:
-          type: array
-          items:
-            $ref: '#/components/schemas/KeyValuePair'
-        archiveFilter:
-          $ref: '#/components/schemas/IncludeExcludeFilter'
-        logConfig:
-          $ref: '#/components/schemas/LogConfig'
-    KeyValuePair:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-        description:
-          type: string
-        include:
-          type: boolean
-        notes:
-          type: object
-    LogConfig:
-      type: object
-      properties:
-        stdoutFilename:
-          type: string
-        stderrFilename:
-          type: string
-    NotifDeliveryTarget:
-      type: object
-      properties:
-        deliveryMethod:
-          type: string
-          enum:
-            - WEBHOOK
-            - EMAIL
-            - QUEUE
-            - ACTOR
-        deliveryAddress:
-          type: string
+
+    # -------------------------------------------------------------------------
+    # --- Request objects -----------------------------------------------------
+    # -------------------------------------------------------------------------
     ReqSubmitJob:
       required:
         - appId
@@ -2419,6 +2197,285 @@ components:
         ttlminutes:
           type: integer
           format: int32
+    ReqShareJob:
+      type: object
+      properties:
+        grantee:
+          type: string
+        jobResource:
+          type: array
+          items:
+            type: string
+            enum:
+              - JOB_HISTORY
+              - JOB_RESUBMIT_REQUEST
+              - JOB_OUTPUT
+              - JOB_INPUT
+        jobPermission:
+          type: string
+          enum:
+            - READ
+    ReqUserEvent:
+      required:
+        - eventData
+      type: object
+      properties:
+        eventData:
+          type: string
+        eventDetail:
+          type: string
+
+    # -------------------------------------------------------------------------
+    # --- Response objects ----------------------------------------------------
+    # -------------------------------------------------------------------------
+    RespBasic:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          type: object
+    RespName:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/ResultName'
+    RespProbe:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/JobsProbe'
+    RespHideJob:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/JobHideDisplay'
+    RespCancelJob:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/JobCancelDisplay'
+    RespGetJob:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/Job'
+    RespJobHistory:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobHistoryDisplayDTO'
+    RespGetJobList:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobListDTO'
+    RespGetJobOutputList:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+    RespJobSearchAllAttributes:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Job'
+    RespUnShareJob:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/JobUnShareDisplay'
+    RespGetJobShareList:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobShareListDTO'
+    RespShareJob:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/JobShareDisplay'
+    RespGetJobStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/JobStatusDisplay'
     RespGetResubmit:
       type: object
       properties:
@@ -2453,31 +2510,6 @@ components:
           $ref: '#/components/schemas/ResultMetadata'
         result:
           $ref: '#/components/schemas/Job'
-    ReqUserEvent:
-      required:
-        - eventData
-      type: object
-      properties:
-        eventData:
-          type: string
-        eventDetail:
-          type: string
-    ResultChangeCount:
-      type: object
-      properties:
-        changes:
-          type: integer
-          format: int32
-    DeliveryTarget:
-      type: object
-      properties:
-        deliveryMethod:
-          type: string
-          enum:
-            - WEBHOOK
-            - EMAIL
-        deliveryAddress:
-          type: string
     RespGetSubscriptions:
       type: object
       properties:
@@ -2497,38 +2529,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TapisSubscription'
-    TapisSubscription:
-      type: object
-      properties:
-        tenant:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        owner:
-          type: string
-        enabled:
-          type: boolean
-        typeFilter:
-          type: string
-        subjectFilter:
-          type: string
-        deliveryTargets:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeliveryTarget'
-        ttlMinutes:
-          type: integer
-          format: int32
-        uuid:
-          type: string
-        expiry:
-          type: string
-        created:
-          type: string
-        updated:
-          type: string
     RespResourceUrl:
       type: object
       properties:
@@ -2546,14 +2546,72 @@ components:
           $ref: '#/components/schemas/ResultMetadata'
         result:
           $ref: '#/components/schemas/ResultResourceUrl'
+    # -------------------------------------------------------------------------
+    # --- Result objects -----------------------------------------------------
+    # -------------------------------------------------------------------------
+    ResultName:
+      type: object
+      properties:
+        name:
+          type: string
+    ResultChangeCount:
+      type: object
+      properties:
+        changes:
+          type: integer
+          format: int32
+    ResultMetadata:
+      type: object
     ResultResourceUrl:
       type: object
       properties:
         url:
           type: string
-  securitySchemes:
-    TapisJWT:
-      type: apiKey
-      description: Tapis signed JWT token authentication
-      name: X-Tapis-Token
-      in: header
+    # -------------------------------------------------------------------------
+    # --- Display objects -----------------------------------------------------
+    # -------------------------------------------------------------------------
+    JobStatusDisplay:
+      type: object
+      properties:
+        status:
+          type: string
+        condition:
+          type: string
+    JobHideDisplay:
+      type: object
+      properties:
+        message:
+          type: string
+    JobCancelDisplay:
+      type: object
+      properties:
+        message:
+          type: string
+    JobHistoryDisplayDTO:
+      type: object
+      properties:
+        event:
+          type: string
+        created:
+          type: string
+          format: date-time
+        eventDetail:
+          type: string
+        description:
+          type: string
+        transferTaskUuid:
+          type: string
+    JobShareDisplay:
+      type: object
+      properties:
+        message:
+          type: string
+    JobUnShareDisplay:
+      type: object
+      properties:
+        message:
+          type: string
+
+    # -------------------------------------------------------------------------
+    # --- Enums ---------------------------------------------------------------
+    # -------------------------------------------------------------------------
