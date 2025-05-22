@@ -1,33 +1,48 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
   title: Tapis Jobs API
   description: The Tapis Jobs API executes jobs on Tapis systems.
+  version: '1.8.5'
+  termsOfService: "https://tapis-project.org"
   contact:
-    name: CICSupport
-    email: cicsupport@tacc.utexas.edu
+    name: "Tapis Jobs API - CICSupport"
+    url: "https://tapis-project.org"
+    email: "cicsupport@tacc.utexas.edu"
   license:
     name: 3-Clause BSD License
     url: https://opensource.org/licenses/BSD-3-Clause
-  version: '0.1'
 externalDocs:
-  description: Tapis Home
-  url: https://tacc-cloud.readthedocs.io/projects/agave/en/latest/
+  description: Tapis Project
+  url: 'https://tapis-project.org'
 servers:
-  - url: http://localhost:8080/v3
+  - url: 'http://localhost:8080/'
     description: Local test environment
     variables: {}
+  - url: 'https://dev.develop.tapis.io/'
+    description: Development environment
+    variables: {}
 tags:
-  - name: jobs
+  - name: General
+    description: General service health and readiness of the Security Kernel (SK)
+  - name: Jobs
     description: manage job execution and data
-  - name: subscriptions
+  - name: Subscriptions
     description: manage job subscriptions
-  - name: general
-    description: informational endpoints
+  - name: Sharing
+    description: |
+      A previously submitted job can be shared with a user in the same tenant. Job resources that can shared are:
+      JOB_HISTORY, JOB_RESUBMIT_REQUEST, JOB_OUTPUT. Sharing gives a user READ permission on the resource.
+
+# ------------------------------------------------------------------------------
+# --- Paths -------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 paths:
+
+  # --- Paths for General ------------------------------------------
   /jobs/healthcheck:
     get:
       tags:
-        - general
+        - General
       description: Lightweight health check for liveness. No authorization required.
       operationId: checkHealth
       responses:
@@ -46,7 +61,7 @@ paths:
   /jobs/ready:
     get:
       tags:
-        - general
+        - General
       description: Lightweight readiness check. No authorization required.
       operationId: ready
       responses:
@@ -66,7 +81,7 @@ paths:
   /jobs/readycheck:
     get:
       tags:
-        - general
+        - General
       description: Lightweight readiness check. No authorization required.
       operationId: readycheck
       responses:
@@ -85,7 +100,7 @@ paths:
   /jobs/hello:
     get:
       tags:
-        - general
+        - General
       description: Logged connectivity test. No authorization required.
       operationId: sayHello
       parameters:
@@ -107,7 +122,7 @@ paths:
   /jobs/{jobUuid}/hide:
     post:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Hide a job by its UUID.
 
@@ -172,7 +187,7 @@ paths:
   /jobs/{jobUuid}/unhide:
     post:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Un-hide a job by its UUID.
 
@@ -237,7 +252,7 @@ paths:
   /jobs/{jobUuid}/cancel:
     post:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Cancel a previously submitted job by its UUID.
 
@@ -302,7 +317,7 @@ paths:
   /jobs/{jobUuid}:
     get:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Retrieve a previously submitted job by its UUID.
 
@@ -361,7 +376,7 @@ paths:
   /jobs/{jobUuid}/history:
     get:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Retrieve history of a previously submitted job by its UUID.
 
@@ -430,7 +445,7 @@ paths:
   /jobs/list:
     get:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Retrieve list of jobs for which the user is the job owner, creator or a tenant administrator.
 
@@ -513,7 +528,7 @@ paths:
   /jobs/{jobUuid}/output/download/{outputPath}:
     get:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Download a job's output files using the job's UUID. By default, the job must be in a terminal state (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a terminal state--and possibly receive incomplete results--set _allowIfRunning=true_.  
 
@@ -594,7 +609,7 @@ paths:
   /jobs/{jobUuid}/output/list/{outputPath}:
     get:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Retrieve a job's output file listing using the job's UUID. By default, the job must be in a terminal state (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a terminal state--and possibly receive incomplete results--set _allowIfRunning=true_.  
 
@@ -674,7 +689,7 @@ paths:
   /jobs/search:
     get:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Retrieve list of jobs for the user based on search conditions in the query paramter on the dedicated search end-point.
 
@@ -761,7 +776,7 @@ paths:
         - TapisJWT: []
     post:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Retrieve list of jobs for the user based on search conditions in the request body and pagination information from the query paramter on the dedicated search end-point.
 
@@ -852,7 +867,7 @@ paths:
   /jobs/{jobUuid}/share/{user}:
     delete:
       tags:
-        - share
+        - Sharing
       description: |-
         Delete all share information of a previously shared job for a specific user
 
@@ -916,7 +931,7 @@ paths:
   /jobs/{jobUuid}/share:
     get:
       tags:
-        - share
+        - Sharing
       description: |-
         Retrieve share information of a job by its UUID.
 
@@ -984,7 +999,7 @@ paths:
         - TapisJWT: []
     post:
       tags:
-        - share
+        - Sharing
       description: Share a job with a user of the tenant. The caller must be the job owner, creator or a tenant administrator.
       operationId: shareJob
       parameters:
@@ -1040,7 +1055,7 @@ paths:
   /jobs/{jobUuid}/status:
     get:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Retrieve status of a previously submitted job by its UUID.
 
@@ -1099,7 +1114,7 @@ paths:
   /jobs/{jobUuid}/resubmit_request:
     get:
       tags:
-        - jobs
+        - Jobs
       description: 'Get Resubmit request for of a job in JSON format.  '
       operationId: getResubmitRequestJson
       parameters:
@@ -1149,7 +1164,7 @@ paths:
   /jobs/{jobUuid}/resubmit:
     post:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Resubmit a job for execution using the job's original parameters.  The main phases of job execution are:
 
@@ -1210,7 +1225,7 @@ paths:
   /jobs/{jobUuid}/sendEvent:
     post:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Send a user event to an active job. The job must be in the same tenant as the caller, but no other authorization is needed. If the job has terminated the request will be rejected. The caller must specify a payload of non-empty string data in the *eventData* field. The *eventDetail* field can be set to further qualify the type of user event, which is useful when filtering events. If not provided the *eventDetail* defaults to "DEFAULT".
 
@@ -1269,7 +1284,7 @@ paths:
   /jobs/submit:
     post:
       tags:
-        - jobs
+        - Jobs
       description: |-
         Submit a job for execution.  The main phases of job execution are:
 
@@ -1331,7 +1346,7 @@ paths:
   /jobs/subscribe/{uuid}:
     delete:
       tags:
-        - subscriptions
+        - Subscriptions
       description: |-
         Depending on the UUID provide, this API either deletes a single subscription from a job or all subscriptions from a job. To delete single subscription, provide the UUID of that subscription as listed in the subscription retrieval result for the job.  To delete all a job's subscriptions, specify the job UUID.
 
@@ -1384,7 +1399,7 @@ paths:
   /jobs/subscribe/{jobUuid}:
     get:
       tags:
-        - subscriptions
+        - Subscriptions
       description: Retrieve a job's subscriptions fom the Notifications service. After subscriptions expire or are deleted by user action they may no longer be listed in Notification service. To inspect the initial set of subscriptions assigned to a job, retrieve the job definition.
       operationId: getSubscriptions
       parameters:
@@ -1445,7 +1460,7 @@ paths:
         - TapisJWT: []
     post:
       tags:
-        - subscriptions
+        - Subscriptions
       description: |
         Subcribe to a running job identified by it's UUID. The caller must be the job owner or a tenant administrator.
 
