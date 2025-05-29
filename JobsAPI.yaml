@@ -786,7 +786,8 @@ paths:
       tags:
         - Jobs
       description: |-
-        Retrieve list of jobs for the user based on search conditions in the request body and pagination information from the query paramter on the dedicated search end-point.
+        Retrieve list of jobs for the user based on search conditions in the request body and pagination information
+        from the query paramter on the dedicated search end-point.
 
         The caller must be the job owner, creator or a tenant administrator.
       operationId: getJobSearchListByPostSqlStr
@@ -996,7 +997,10 @@ paths:
           - monitor application
           - archive application output
 
-        When a job is submitted its request payload is captured and available for resubmission using this API. The resubmitted job is assigned a new UUID and does not reference or have any special access to the original job's information once the orginal job's request is copied. The resubmitted job's execution can differ from the original job's if the application, system or other aspects of the execution environment have changed.
+        When a job is submitted its request payload is captured and available for resubmission using this API. The
+        resubmitted job is assigned a new UUID and does not reference or have any special access to the original job's
+        information once the orginal job's request is copied. The resubmitted job's execution can differ from the
+        original job's if the application, system or other aspects of the execution environment have changed.
       operationId: resubmitJob
       parameters:
         - name: jobUuid
@@ -1120,7 +1124,13 @@ paths:
           - monitor application
           - archive application output
 
-        At a minimum, the job name, application ID and application version must be specified in the request payload. The optional parameters available in a job request provide great flexibility but must be considered in the context of the application and system definitions. The actual values used during job execution are a combination of the values in this request and those specified in the job's application and system definitions. It's often desirable to keep the submission request simple by specifying common values in these other two definitions. See the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request) documentation for details.
+        At a minimum, the job name, application ID and application version must be specified in the request payload.
+        The optional parameters available in a job request provide great flexibility but must be considered in the
+        context of the application and system definitions. The actual values used during job execution are a combination
+        of the values in this request and those specified in the job's application and system definitions. It's often
+        desirable to keep the submission request simple by specifying common values in these other two definitions. See
+        the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request)
+        documentation for details.
       operationId: submitJob
       parameters:
         - name: pretty
@@ -1229,7 +1239,10 @@ paths:
     get:
       tags:
         - Subscriptions
-      description: Retrieve a job's subscriptions fom the Notifications service. After subscriptions expire or are deleted by user action they may no longer be listed in Notification service. To inspect the initial set of subscriptions assigned to a job, retrieve the job definition.
+      description:  |-
+        Retrieve a job's subscriptions fom the Notifications service. After subscriptions expire or are deleted by user
+        action they may no longer be listed in Notification service. To inspect the initial set of subscriptions
+        assigned to a job, retrieve the job definition.
       operationId: getSubscriptions
       parameters:
         - name: jobUuid
@@ -1290,10 +1303,11 @@ paths:
     post:
       tags:
         - Subscriptions
-      description: |
+      description: |-
         Subcribe to a running job identified by it's UUID. The caller must be the job owner or a tenant administrator.
 
-        Like all Job subscription APIs, modifications only affect running jobs and never change the saved job definition. As a consequence, job resubmissions are not affected by runtime subscription changes.
+        Like all Job subscription APIs, modifications only affect running jobs and never change the saved job definition.
+        As a consequence, job resubmissions are not affected by runtime subscription changes.
 
         The events to which one can subscribe are:
 
