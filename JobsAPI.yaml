@@ -1638,7 +1638,7 @@ components:
         trackingId:
           type: string
         notes:
-          type: object
+          type: string
         mpi:
           type: boolean
     # --- JobFileInput ------------------------------------------------------------------
