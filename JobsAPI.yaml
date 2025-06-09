@@ -1743,8 +1743,6 @@ components:
           enum:
             - WEBHOOK
             - EMAIL
-            - QUEUE
-            - ACTOR
         deliveryAddress:
           type: string
     # --- JobsProbe ------------------------------------------------------------------
