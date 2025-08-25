@@ -1502,6 +1502,9 @@ components:
           type: string
         archiveOnAppError:
           type: boolean
+          deprecated: true
+        archiveMode:
+          $ref: '#/components/schemas/ArchiveModeEnum'
         dynamicExecSystem:
           type: boolean
         execSystemId:
@@ -1974,6 +1977,9 @@ components:
           type: string
         archiveOnAppError:
           type: boolean
+          deprecated: true
+        archiveMode:
+          $ref: '#/components/schemas/ArchiveModeEnum'
         dynamicExecSystem:
           type: boolean
         execSystemId:
@@ -2479,3 +2485,10 @@ components:
     # -------------------------------------------------------------------------
     # --- Enums ---------------------------------------------------------------
     # -------------------------------------------------------------------------
+    ArchiveModeEnum:
+      type: string
+      enum:
+        - ALWAYS
+        - SKIP_ON_FAIL
+        - SKIP
+      default: ALWAYS
