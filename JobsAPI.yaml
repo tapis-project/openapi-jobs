@@ -1426,8 +1426,8 @@ components:
     # ------------------------------------------------------------------------------
     # --- Model objects ------------------------------------------------------------
     # ------------------------------------------------------------------------------
-    # --- Job ------------------------------------------------------------------
-    Job:
+    # --- TapisJob ------------------------------------------------------------------
+    TapisJob:
       type: object
       properties:
         id:
@@ -1537,13 +1537,17 @@ components:
           type: integer
           format: int32
         fileInputs:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/JobFileInput'
         parameterSet:
           type: string
         execSystemConstraints:
           type: string
         subscriptions:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/ReqSubscribe'
         blockedCount:
           type: integer
           format: int32
@@ -1641,8 +1645,8 @@ components:
           type: string
         mpi:
           type: boolean
-    # --- JobFileInput ------------------------------------------------------------------
-    JobFileInput:
+    # --- FileInputReq ---------------------------------------------------------------
+    FileInputReq:
       type: object
       properties:
         name:
@@ -1659,8 +1663,8 @@ components:
           type: string
         notes:
           type: object
-    # --- JobFileInputArray ---------------------------------------------------------------
-    JobFileInputArray:
+    # --- FileInputArrayReq ---------------------------------------------------------------
+    FileInputArrayReq:
       type: object
       properties:
         name:
@@ -1674,6 +1678,30 @@ components:
           items:
             type: string
         targetDir:
+          type: string
+        notes:
+          type: object
+    # --- JobFileInput ---------------------------------------------------------------
+    JobFileInput:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        envKey:
+          type: string
+        autoMountLocal:
+          type: boolean
+        sourceUrl:
+          type: string
+        targetPath:
+          type: string
+        optional:
+          type: boolean
+        srcSharedAppCtx:
+          type: string
+        destSharedAppCtx:
           type: string
         notes:
           type: object
@@ -1737,6 +1765,9 @@ components:
     # --- NotifDeliveryTarget ---------------------------------------------------------------
     NotifDeliveryTarget:
       type: object
+      required:
+        - deliveryMethod
+        - deliveryAddress
       properties:
         deliveryMethod:
           type: string
@@ -2009,11 +2040,11 @@ components:
         fileInputs:
           type: array
           items:
-            $ref: '#/components/schemas/JobFileInput'
+            $ref: '#/components/schemas/FileInputReq'
         fileInputArrays:
           type: array
           items:
-            $ref: '#/components/schemas/JobFileInputArray'
+            $ref: '#/components/schemas/FileInputArrayReq'
         parameterSet:
           $ref: '#/components/schemas/JobParameterSet'
         execSystemConstraints:
@@ -2038,11 +2069,15 @@ components:
           type: object
     ReqSubscribe:
       type: object
+      required:
+        - eventCategoryFilter
+        - deliveryTargets
       properties:
         description:
           type: string
         enabled:
           type: boolean
+          default: true
         eventCategoryFilter:
           type: string
           enum:
@@ -2056,11 +2091,13 @@ components:
             - ALL
         deliveryTargets:
           type: array
+          minItems: 1
           items:
             $ref: '#/components/schemas/NotifDeliveryTarget'
         ttlminutes:
           type: integer
           format: int32
+          default: 10080
     ReqShareJob:
       type: object
       properties:
@@ -2193,7 +2230,7 @@ components:
         metadata:
           $ref: '#/components/schemas/ResultMetadata'
         result:
-          $ref: '#/components/schemas/Job'
+          $ref: '#/components/schemas/TapisJob'
     RespJobHistory:
       type: object
       properties:
@@ -2269,7 +2306,7 @@ components:
         result:
           type: array
           items:
-            $ref: '#/components/schemas/Job'
+            $ref: '#/components/schemas/TapisJob'
     RespUnShareJob:
       type: object
       properties:
@@ -2373,7 +2410,7 @@ components:
         metadata:
           $ref: '#/components/schemas/ResultMetadata'
         result:
-          $ref: '#/components/schemas/Job'
+          $ref: '#/components/schemas/TapisJob'
     RespGetSubscriptions:
       type: object
       properties:
