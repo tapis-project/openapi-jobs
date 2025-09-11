@@ -1641,7 +1641,7 @@ components:
         trackingId:
           type: string
         notes:
-          type: string
+          type: object
         mpi:
           type: boolean
     # --- JobFileInput ------------------------------------------------------------------
@@ -2490,5 +2490,5 @@ components:
       enum:
         - ALWAYS
         - SKIP_ON_FAIL
-        - SKIP
+        - NEVER
       default: ALWAYS
