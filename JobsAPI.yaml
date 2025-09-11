@@ -94,6 +94,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              nullable: true
       responses:
         '200':
           description: Hide the job successfully
@@ -154,6 +160,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              nullable: true
       responses:
         '200':
           description: Unhide the job successfuly.
@@ -214,6 +226,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              nullable: true
       responses:
         '200':
           description: Job Cancellation Initiated.
@@ -906,6 +924,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              nullable: true
       responses:
         '200':
           description: Job created.
