@@ -96,7 +96,7 @@ paths:
             type: string
       requestBody:
         content:
-          '*/*':
+          'application/json':
             schema:
               type: object
               nullable: true
@@ -162,7 +162,7 @@ paths:
             type: string
       requestBody:
         content:
-          '*/*':
+          'application/json':
             schema:
               type: object
               nullable: true
@@ -228,7 +228,7 @@ paths:
             type: string
       requestBody:
         content:
-          '*/*':
+          'application/json':
             schema:
               type: object
               nullable: true
@@ -926,7 +926,7 @@ paths:
             type: string
       requestBody:
         content:
-          '*/*':
+          'application/json':
             schema:
               type: object
               nullable: true
