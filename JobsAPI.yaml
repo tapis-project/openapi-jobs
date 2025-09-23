@@ -88,7 +88,7 @@ paths:
         The caller can remove existing tags/notes by providing an empty array for tags or an empty JSON object for notes.
 
         The caller must be the job owner, creator or a tenant administrator.
-      operationId: updateJobAnnotations
+      operationId: putJobAnnotations
       parameters:
         - name: jobUuid
           in: path
@@ -152,7 +152,7 @@ paths:
       description: |-
         Adding tags or notes. The old note field will be updated with the new value of note field if the key is the same. 
         The caller must be the job owner, creator or a tenant administrator.
-      operationId: updateJobAnnotations
+      operationId: patchJobAnnotations
       parameters:
         - name: jobUuid
           in: path
@@ -533,7 +533,7 @@ paths:
       description: |-
         Annotate a job with tags and/or notes. 
         The caller must be the job owner, creator or a tenant administrator.
-      operationId: updateJobAnnotations
+      operationId: updateJob
       parameters:
         - name: jobUuid
           in: path
@@ -599,7 +599,7 @@ paths:
         The caller can remove existing tags/notes by providing an empty array for tags or an empty JSON object for notes.
 
         The caller must be the job owner, creator or a tenant administrator.
-      operationId: updateJobAnnotations
+      operationId: putJob
       parameters:
         - name: jobUuid
           in: path
@@ -663,7 +663,7 @@ paths:
       description: |-
         Adding tags or notes. The old note field will be updated with the new value of note field if the key is the same. 
         The caller must be the job owner, creator or a tenant administrator.
-      operationId: updateJobAnnotations
+      operationId: patchJob
       parameters:
         - name: jobUuid
           in: path
