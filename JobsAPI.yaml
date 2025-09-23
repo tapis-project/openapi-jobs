@@ -527,6 +527,201 @@ paths:
                 $ref: '#/components/schemas/RespBasic'
       security:
         - TapisJWT: []
+    post:
+      tags:
+        - Jobs
+      description: |-
+        Annotate a job with tags and/or notes. 
+        The caller must be the job owner, creator or a tenant administrator.
+      operationId: updateJobAnnotations
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ReqJobPostAnnotation'
+        required: true
+      responses:
+        '200':
+          description: Job annotations updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespJobAnnotations'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '409':
+          description: Job state is not valid for updating annotations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+    put:
+      tags:
+        - Jobs
+      description: |-
+        Replace tags or notes based on the provided tags/notes.
+        The caller can remove existing tags/notes by providing an empty array for tags or an empty JSON object for notes.
+
+        The caller must be the job owner, creator or a tenant administrator.
+      operationId: updateJobAnnotations
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ReqJobAnnotation'
+        required: true
+      responses:
+        '200':
+          description: Job annotations updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespJobAnnotations'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '409':
+          description: Job state is not valid for updating annotations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+    patch:
+      tags:
+        - Jobs
+      description: |-
+        Adding tags or notes. The old note field will be updated with the new value of note field if the key is the same. 
+        The caller must be the job owner, creator or a tenant administrator.
+      operationId: updateJobAnnotations
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ReqJobAnnotation'
+        required: true
+      responses:
+        '200':
+          description: Job annotations updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespJobAnnotations'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '409':
+          description: Job state is not valid for updating annotations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+
   /jobs/{jobUuid}/history:
     get:
       tags:
@@ -2314,19 +2509,26 @@ components:
           type: string
         eventDetail:
           type: string
+    
     ReqJobPostAnnotation:
       type: object
       properties:
-        addTags:
+        tags:
           type: array
           items:
             type: string
-        removeTags:
-          type: array
-          items:
-            type: string
+        tagsAction:
+          type: string
+          enum:
+            - MERGE
+            - REPLACE
         notes:
           type: object
+        notesAction:
+          type: string
+          enum:
+            - MERGE
+            - REPLACE
     ReqJobAnnotation:
       type: object
       properties:
