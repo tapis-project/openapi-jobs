@@ -1177,6 +1177,7 @@ paths:
         desirable to keep the submission request simple by specifying common values in these other two definitions. See
         the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request)
         documentation for details.
+        The total number of tags of a job is limited to be 128 and the total size of tags/notes is limited to be 128K bytes.
       operationId: submitJob
       requestBody:
         content:
