@@ -84,11 +84,26 @@ paths:
       tags:
         - Jobs
       description: |-
-        Replace tags or notes based on the provided tags/notes.
-        The caller can remove existing tags/notes by providing an empty array for tags or an empty JSON object for notes.
-        The total number of tags of a job is limited to be 128 and the total size of tags/notes is limited to be 128K bytes.
-
-        The caller must be the job owner, creator or a tenant administrator.
+        Replace tags or notes with the provided values.
+    
+        ## Behavior
+        - **Tags**: Completely replaces existing tags with the provided array
+        - **Notes**: Completely replaces existing notes with the provided JSON object
+        - **Clearing Data**: 
+          - Provide empty array `[]` for tags to remove all tags
+          - Provide empty object `{}` for notes to remove all notes
+        
+        ## Limits
+        - Maximum tags per job: **128**
+        - Maximum characters per tag: **128**
+        - Maximum characters per note key: **128**
+        - Maximum characters per note value (string): **1024**
+        - Total size of tags/notes: **128KB maximum**
+        
+        ## Authorization
+        The caller must be the job owner, creator, or a tenant administrator.
+        
+        **Note**: This operation completely replaces existing annotations rather than merging them.
       operationId: putJobAnnotations
       parameters:
         - name: jobUuid
@@ -151,10 +166,22 @@ paths:
       tags:
         - Jobs
       description: |-
-        Adding tags or notes. Repetitive tags will be ignored.
-        The old notes will be updated with the new value of notes if the key is the same.
-        The total number of tags of a job is limited to be 128 and the total size of tags/notes is limited to be 128K bytes.
-        The caller must be the job owner, creator or a tenant administrator.
+        Adding tags or notes with the following behavior:
+
+        - **Tags**: Repetitive tags will be ignored (case-insensitive merging)
+
+        - **Notes**: Old notes will be updated with new values if the key is the same
+
+        - **Limits**: 
+          - Total number of characters per tag key: 128 maximum
+          - Total number of tags per job: 128 maximum
+          - Total number of characters per note key in the JSON object: 128 maximum
+          - Total number of characters per note value (string type) in the JSON object: 1024 maximum
+          - Total size of tags/notes: 128KB maximum.
+
+        - **Authorization**: Caller must be the job owner, creator, or tenant administrator
+
+        **Note**: This operation merges new data with existing annotations rather than replacing them.
       operationId: patchJobAnnotations
       parameters:
         - name: jobUuid
