@@ -92,6 +92,7 @@ paths:
         - **Clearing Data**: 
           - Provide empty array `[]` for tags to remove all tags
           - Provide empty object `{}` for notes to remove all notes
+        - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.
         
         ## Limits
         - Maximum tags per job: **128**
@@ -167,19 +168,20 @@ paths:
         - Jobs
       description: |-
         Adding tags or notes with the following behavior:
+        ## Behavior
+          - **Tags**: Repetitive tags will be ignored (case-insensitive merging)
+          - **Notes**: Old notes will be updated with new values if the key is the same
+          - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.
 
-        - **Tags**: Repetitive tags will be ignored (case-insensitive merging)
-
-        - **Notes**: Old notes will be updated with new values if the key is the same
-
-        - **Limits**: 
+        ## Limits
           - Total number of characters per tag key: 128 maximum
           - Total number of tags per job: 128 maximum
           - Total number of characters per note key in the JSON object: 128 maximum
           - Total number of characters per note value (string type) in the JSON object: 1024 maximum
           - Total size of tags/notes: 128KB maximum.
 
-        - **Authorization**: Caller must be the job owner, creator, or tenant administrator
+        ## Authorization 
+          - Caller must be the job owner, creator, or tenant administrator
 
         **Note**: This operation merges new data with existing annotations rather than replacing them.
       operationId: patchJobAnnotations
