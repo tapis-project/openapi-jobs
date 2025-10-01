@@ -2253,26 +2253,6 @@ components:
           type: string
         eventDetail:
           type: string
-    
-    ReqJobPostAnnotation:
-      type: object
-      properties:
-        tags:
-          type: array
-          items:
-            type: string
-        tagsAction:
-          type: string
-          enum:
-            - MERGE
-            - REPLACE
-        notes:
-          type: object
-        notesAction:
-          type: string
-          enum:
-            - MERGE
-            - REPLACE
     ReqJobAnnotation:
       type: object
       properties:
