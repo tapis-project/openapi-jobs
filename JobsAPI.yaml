@@ -91,11 +91,11 @@ paths:
           - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.
 
         ## Limits
-          - Total number of characters per tag key: 128 maximum
-          - Total number of tags per job: 128 maximum
-          - Total number of characters per note key in the JSON object: 128 maximum
-          - Total number of characters per note value (string type) in the JSON object: 1024 maximum
-          - Total size of tags/notes: 128KB maximum.
+          - Maximum tags per job: **128**
+          - Maximum characters per tag: **128**
+          - Maximum characters per note key: **128**
+          - Maximum characters per note value (string): **1024**
+          - Total size of tags/notes: **128KB maximum**
 
         ## Authorization 
           - Caller must be the job owner, creator, or tenant administrator
@@ -166,22 +166,22 @@ paths:
         Replace tags or notes with the provided values.
     
         ## Behavior
-        - **Tags**: Completely replaces existing tags with the provided array
-        - **Notes**: Completely replaces existing notes with the provided JSON object
-        - **Clearing Data**: 
-          - Provide empty array `[]` for tags to remove all tags
-          - Provide empty object `{}` for notes to remove all notes
-        - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.
+          - **Tags**: Completely replaces existing tags with the provided array
+          - **Notes**: Completely replaces existing notes with the provided JSON object
+          - **Clearing Data**: 
+            - Provide empty array `[]` for tags to remove all tags
+            - Provide empty object `{}` for notes to remove all notes
+          - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.
         
         ## Limits
-        - Maximum tags per job: **128**
-        - Maximum characters per tag: **128**
-        - Maximum characters per note key: **128**
-        - Maximum characters per note value (string): **1024**
-        - Total size of tags/notes: **128KB maximum**
+          - Maximum tags per job: **128**
+          - Maximum characters per tag: **128**
+          - Maximum characters per note key: **128**
+          - Maximum characters per note value (string): **1024**
+          - Total size of tags/notes: **128KB maximum**
         
         ## Authorization
-        - The caller must be the job owner, creator, or a tenant administrator.
+          - The caller must be the job owner, creator, or a tenant administrator.
         
         **Note**: This operation completely replaces existing annotations rather than merging them.
       operationId: putJobAnnotations
