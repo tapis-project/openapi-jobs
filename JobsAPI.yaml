@@ -152,7 +152,7 @@ paths:
         - Jobs
       description: |-
         Adding tags or notes. Repetitive tags will be ignored.
-        The old note field will be updated with the new value of note field if the key is the same.
+        The old notes will be updated with the new value of notes if the key is the same.
         The total number of tags of a job is limited to be 128 and the total size of tags/notes is limited to be 128K bytes.
         The caller must be the job owner, creator or a tenant administrator.
       operationId: patchJobAnnotations
