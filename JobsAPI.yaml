@@ -968,7 +968,7 @@ paths:
       description: |-
         Adding tags or notes with the following behavior:
         ## Behavior
-          - **Tags**: Repetitive tags will be ignored (case-insensitive merging)
+          - **Tags**: Repetitive tags will be ignored (case-sensitive merging)
           - **Notes**: Old notes will be updated with new values if the key is the same
           - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.
 
